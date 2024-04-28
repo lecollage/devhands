@@ -48,6 +48,63 @@ sudo make
 sudo make install
 sudo nginx
 sudo nginx -V
+
+https://www.nginx.com/blog/tuning-nginx/
+https://www.alibabacloud.com/blog/how-to-build-nginx-from-source-on-ubuntu-20-04-lts_597793
+
+sudo nginx -s stop
+sudo nano /lib/systemd/system/nginx.service
+sudo systemctl daemon-reload
+sudo systemctl reload-or-restart nginx.service
+sudo systemctl status nginx.service
+netstat -nplt
+
+[Unit]
+Description=The NGINX HTTP and reverse proxy server
+After=syslog.target network-online.target remote-fs.target nss-lookup.target
+Wants=network-online.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/nginx.pid
+ExecStartPre=/usr/sbin/nginx -t
+ExecStart=/usr/sbin/nginx
+ExecReload=/usr/sbin/nginx -s reload
+ExecStop=/bin/kill -s QUIT $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+CERT 
+https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/
+
+sudo certbot --nginx -d ekalashnikov.devhands.cloud -d www.ekalashnikov.devhands.cloud
+
+Certificate is saved at: /etc/letsencrypt/live/ekalashnikov.devhands.cloud/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/ekalashnikov.devhands.cloud/privkey.pem
+
+
+    server_name  ekalashnikov.devhands.cloud www.ekalashnikov.devhands.cloud;
+
+    listen 443 ssl; # managed by Certbot
+
+    # RSA certificate
+    ssl_certificate /etc/letsencrypt/live/ekalashnikov.devhands.cloud/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/ekalashnikov.devhands.cloud/privkey.pem; # managed by Certbot
+
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+
+    # Redirect non-https traffic to https
+    if ($scheme != "https") {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+crontab -e
+0 12 * * * /usr/bin/certbot renew --quiet
+
 //////////////////////
 
 
@@ -91,7 +148,43 @@ https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-o
 
 
 
+//////////////////////
+INSTALL POSTGRES
 
+https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart
+//////////////////////
+
+
+
+//////////////////////
+INSTALL NODE.JS
+
+https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-22-04
+cd ~
+curl -sL https://deb.nodesource.com/setup_21.x -o nodesource_setup.sh
+sudo bash ./nodesource_setup.sh
+sudo apt install nodejs
+
+NVM
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+//////////////////////
+
+
+//////////////////////
+CONFIGURE GIT 
+
+git config --global user.name "Eugene Kalashnikov"
+git config --global user.email "ekalashnikov59@gmail.com"
+
+ssh-keygen -t ed25519 -C "ekalashnikov59@gmail.com"
+//////////////////////
+
+//////////////////////
+TOOLS
+
+sudo apt-get install lshw
+//////////////////////
 
 
 ls -l /proc/ | wc -l
@@ -209,7 +302,22 @@ WantedBy=multi-user.target
 
 
 
+[Unit]
+Description=The NGINX HTTP and reverse proxy server
+After=syslog.target network-online.target remote-fs.target nss-lookup.target
+Wants=network-online.target
 
+[Service]
+Type=forking
+PIDFile=/var/run/nginx.pid
+ExecStartPre=/usr/bin/nginx -t
+ExecStart=/usr/bin/nginx
+ExecReload=/usr/bin/nginx -s reload
+ExecStop=/bin/kill -s QUIT $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
 
 
 
@@ -221,6 +329,8 @@ sudo systemctl reload nginx.service
 sudo systemctl reload-or-restart nginx.service
 sudo systemctl daemon-reload
 
+
+sudo systemctl reload nginx
 sudo systemctl enable nginx
 sudo journalctl -f -u nginx
 sudo service nginx status
