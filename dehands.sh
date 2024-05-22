@@ -592,3 +592,6 @@ go get -u github.com/google/uuid
 wrk -T8 -C16 -L -R1000 -d60 http://localhost/index.html
 wrk -T8 -C16 -L -R1000 -d60 http://localhost
 wrk -t2 -c10 -d60s -R1000 http://localhost:8000/app/test/cpu-load-sync?number=1003
+
+wrk -t8 -c16 -L -R25000 -d60 https://ekalashnikov.devhands.cloud > wrk-results/1.wrk
+sudo wrk -t8 -c16 -L -R100000 -d60 http://localhost:8000
