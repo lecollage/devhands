@@ -171,6 +171,8 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 //////////////////////
 
 
+
+
 //////////////////////
 CONFIGURE GIT 
 
@@ -179,6 +181,9 @@ git config --global user.email "ekalashnikov59@gmail.com"
 
 ssh-keygen -t ed25519 -C "ekalashnikov59@gmail.com"
 //////////////////////
+
+
+
 
 //////////////////////
 TOOLS
@@ -503,7 +508,15 @@ sudo certbot renew --dry-run
 
 
 
-https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-grafana-on-ubuntu-20-04
+https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-grafana-on-ubuntu-22-04
+https://grafana.com/tutorials/run-grafana-behind-a-proxy/
+https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/
+
+sudo apt-get install -y apt-transport-https \
+sudo apt-get install -y software-properties-common wget \
+wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+
+/usr/share/keyrings/grafana.key != /etc/apt/keyrings/grafana.gpg
 
 sudo apt install software-properties-common
 type apt-add-repository
@@ -515,7 +528,6 @@ sudo apt install grafana
 sudo systemctl start grafana-server
 sudo systemctl status grafana-server
 sudo systemctl enable grafana-server
-
 
 ...
 	location / {
