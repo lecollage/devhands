@@ -595,3 +595,58 @@ wrk -t2 -c10 -d60s -R1000 http://localhost:8000/app/test/cpu-load-sync?number=10
 
 wrk -t8 -c16 -L -R25000 -d60 https://ekalashnikov.devhands.cloud > wrk-results/1.wrk
 sudo wrk -t8 -c16 -L -R100000 -d60 http://localhost:8000
+
+
+
+
+wrk -t8 -c16 -L -R100000 -d60 https://localhost:443 > wrk-results/localhost_443_t8_c16_R100000.wrk
+
+scp ekalashnikov@45.95.235.203:/local/repos/wrk-helper/2024_06_20_08_47_34-http___localhost_443-c4000_chart.png ~/work/devhands
+
+./wrk_helper.sh -t4 -c"1000,4000" -R"3000,30000,90000" -d60 http://localhost:443
+./wrk_helper.sh -t4 -c"100" -R"100,1000,5000,10000,20000,30000,40000,50000,60000,70000,80000,90000,100000,110000,120000,130000,140000,150000" -d60 -p /local/repos/wrkx/wrk https://localhost:443
+./wrk_helper.sh -t4 -c"100" -R"100" -d60 -p /local/repos/wrkx/wrk https://localhost:443
+
+sudo python3 wrk_parser.py 2024_06_20_08_47_34-http___localhost_443-c4000.txt
+
+scp ekalashnikov@45.95.235.203:/local/repos/wrk-helper/*.png ~/work/devhands
+
+sudo ./wrk_helper.sh -t4 -c"100" -R"100,1000,5000,10000,20000,30000,40000,50000,60000,70000,80000,90000,100000,110000,120000,130000,140000,150000" -d60 -p /local/repos/wrkx/wrk http://localhost:8000
+sudo ./wrk_helper.sh -t4 -c"100" -R"100,1000,5000,10000,15000,20000,25000,30000,35000,40000,45000,50000,55000" -d60 -p /local/repos/wrkx/wrk https://localhost:443/api/
+sudo ./wrk_helper.sh -t4 -c"100" -R"10000" -d60 -p /local/repos/wrkx/wrk https://localhost:443/api/
+
+sudo ./wrk_helper.sh -t4 -c"100" -R"50000" -d60 -p /local/repos/wrkx/wrk http://localhost:8000
+sudo ./wrk_helper.sh -t4 -c"100" -R"2000,4000,6000,8000,10000,15000,20000" -d60 -p /local/repos/wrkx/wrk http://localhost:8000
+
+2: 9e514ae272fee0dae8b3f80fcda2983bb14764bf
+1: 6b07de87721f8070c6536022ee2d3bf10df7d919
+
+
+394338bb5b5493b060d5418cc99a8e2604adbe05
+
+sudo ./wrk_helper.sh -t4 -c"100" -R"100,1000,2000,3000,4000,5000,10000,15000,20000,25000,30000" -d60 -p /local/repos/wrkx/wrk https://localhost:443/api/
+sudo ./wrk_helper.sh -t4 -c"100" -R"2000,3000,4000,5000,7500,10000,15000,20000,25000,30000" -d60 -p /local/repos/wrkx/wrk http://localhost:9002/
+
+
+docker run --rm jordi/ab -n 100 -c 100 -v 2 http://localhost:8000
+
+docker run --rm jordi/ab -n 100 -c 100 -T application/json -v 2 http://localhost:8000
+
+docker run --rm jordi/ab -v 2 http://localhost:8000/
+
+docker run --rm jordi/ab -k -c 100 -n 100000 http://localhost:8000/
+
+
+clinic bubbleprof --on-port 'autocannon -c 5 -a 500 localhost:7000'  -- node dist/main
+clinic doctor --autocannon [ / ] -- node dist/main
+
+clinic doctor --autocannon [ / ] -- node dist/main
+
+clinic doctor --on-port 'autocannon localhost:7000' -- node dist/main
+
+sudo ./wrk_helper.sh -t4 -c"50" -R"45000,50000," -d60 -p /local/repos/wrkx/wrk https://localhost:443/api/
+
+
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./nginx -out ./nginx
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./nginx/nginx-selfsigned.key -out ./nginx/nginx-selfsigned.crt
+sudo openssl dhparam -out ./nginx/dhparam.pem 2048
